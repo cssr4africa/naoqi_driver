@@ -5,21 +5,21 @@
     "front_camera":
     {
       "enabled"       : true,
-      "resolution"    : 1,
+      "resolution"    : 2,
       "fps"           : 10,
       "recorder_fps"  : 5
     },
     "bottom_camera":
     {
       "enabled"       : true,
-      "resolution"    : 1,
+      "resolution"    : 2,
       "fps"           : 10,
       "recorder_fps"  : 5
     },
     "depth_camera":
     {
       "enabled"       : true,
-      "xtion_resolution": 1,
+      "xtion_resolution": 2,
       "stereo_resolution": 9,
       "fps"           : 10,
       "recorder_fps"  : 5
@@ -82,19 +82,19 @@
     },
     "audio":
     {
-      "enabled"       : true
+      "enabled"       : false
     },
     "bumper":
     {
-      "enabled"       : true
+      "enabled"       : false
     },
     "touch_hand":
     {
-      "enabled"       : true
+      "enabled"       : false
     },
     "touch_head":
     {
-      "enabled"       : true
+      "enabled"       : false
     },
     "odom":
     {

@@ -35,7 +35,7 @@ namespace converter
 
 InfoConverter::InfoConverter( const std::string& name, float frequency, const qi::SessionPtr& session )
   : BaseConverter( name, frequency, session ),
-    p_memory_( session->service("ALMemory").value() )
+    p_memory_( session->service("ALMemory") )
 {
   keys_.push_back("RobotConfig/Head/FullHeadId");
   keys_.push_back("Device/DeviceList/ChestBoard/BodyId");

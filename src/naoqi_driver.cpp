@@ -476,7 +476,7 @@ bool Driver::registerMemoryConverter( const std::string& key, float frequency, c
   dataType::DataType data_type;
   qi::AnyValue value;
   try {
-    qi::AnyObject p_memory = sessionPtr_->service("ALMemory").value();
+    qi::AnyObject p_memory = sessionPtr_->service("ALMemory");
     value = p_memory.call<qi::AnyValue>("getData", key);
   } catch (const std::exception& e) {
     std::cout << BOLDRED << "Could not get data in memory for the key: "
@@ -565,13 +565,13 @@ void Driver::registerDefaultConverter()
   size_t camera_front_recorder_fps    = boot_config_.get( "converters.front_camera.recorder_fps", 5);
 
   bool camera_bottom_enabled          = boot_config_.get( "converters.bottom_camera.enabled", true);
-  size_t camera_bottom_resolution     = boot_config_.get( "converters.bottom_camera.resolution", 1); // VGA
+  size_t camera_bottom_resolution     = boot_config_.get( "converters.bottom_camera.resolution", 0); // VGA
   size_t camera_bottom_fps            = boot_config_.get( "converters.bottom_camera.fps", 10);
   size_t camera_bottom_recorder_fps   = boot_config_.get( "converters.bottom_camera.recorder_fps", 5);
 
   size_t camera_depth_resolution;
   bool camera_depth_enabled             = boot_config_.get( "converters.depth_camera.enabled", true);
-  size_t camera_depth_xtion_resolution  = boot_config_.get( "converters.depth_camera.xtion_resolution", 1); // QVGA
+  size_t camera_depth_xtion_resolution  = boot_config_.get( "converters.depth_camera.xtion_resolution", 0); // QVGA
   size_t camera_depth_stereo_resolution = boot_config_.get( "converters.depth_camera.stereo_resolution", 9); // Q720p
   size_t camera_depth_fps               = boot_config_.get( "converters.depth_camera.fps", 10);
   size_t camera_depth_recorder_fps      = boot_config_.get( "converters.depth_camera.recorder_fps", 5);
@@ -818,20 +818,14 @@ void Driver::registerDefaultConverter()
 
   if ( audio_enabled ) {
     /** Audio */
-    // Not supported for NAOqi 2.9
-    auto naoqi_version = helpers::driver::getNaoqiVersion(sessionPtr_);
-    if (helpers::driver::isNaoqiVersionLesser(naoqi_version, 2, 9)) {
-      boost::shared_ptr<AudioEventRegister> event_register =
-          boost::make_shared<AudioEventRegister>("audio", 0, sessionPtr_);
-      insertEventConverter("audio", event_register);
-      if (keep_looping) {
-        event_map_.find("audio")->second.startProcess();
-      }
-      if (publish_enabled_) {
-        event_map_.find("audio")->second.isPublishing(true);
-      }
-    } else {
-      std::cout << "Audio is not supported for NAOqi version 2.9 or greater, disabled." << std::endl;
+    boost::shared_ptr<AudioEventRegister> event_register =
+        boost::make_shared<AudioEventRegister>( "audio", 0, sessionPtr_ );
+    insertEventConverter("audio", event_register);
+    if (keep_looping) {
+      event_map_.find("audio")->second.startProcess();
+    }
+    if (publish_enabled_) {
+      event_map_.find("audio")->second.isPublishing(true);
     }
   }
 
@@ -1049,11 +1043,14 @@ void Driver::setMasterURINet( const std::string& uri, const std::string& network
 
 void Driver::startPublishing()
 {
+
   publish_enabled_ = true;
   for(EventIter iterator = event_map_.begin(); iterator != event_map_.end(); iterator++)
   {
     iterator->second.isPublishing(true);
+    
   }
+  
 }
 
 void Driver::stopPublishing()
@@ -1295,7 +1292,7 @@ bool Driver::registerEventConverter(const std::string& key, const dataType::Data
   dataType::DataType data_type;
   qi::AnyValue value;
   try {
-    qi::AnyObject p_memory = sessionPtr_->service("ALMemory").value();
+    qi::AnyObject p_memory = sessionPtr_->service("ALMemory");
     value = p_memory.call<qi::AnyValue>("getData", key);
   } catch (const std::exception& e) {
     std::cout << BOLDRED << "Could not get data in memory for the key: "

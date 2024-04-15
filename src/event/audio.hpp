@@ -58,6 +58,7 @@ public:
   /**
   * @brief Constructor for recorder interface
   */
+  AudioEventRegister();
   AudioEventRegister( const std::string& name, const float& frequency, const qi::SessionPtr& session );
   ~AudioEventRegister();
 
@@ -92,7 +93,6 @@ private:
   qi::FutureSync<qi::AnyObject> p_audio_extractor_request;
   std::vector<uint8_t> channelMap;
   unsigned int serviceId;
-  const robot::NaoqiVersion& naoqi_version_;
 
   boost::mutex subscription_mutex_;
   boost::mutex processing_mutex_;

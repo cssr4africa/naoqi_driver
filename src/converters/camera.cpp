@@ -172,9 +172,10 @@ const sensor_msgs::CameraInfo& getCameraInfo( int camera_source, int resolution 
       return cam_info_msg;
     }
   }
-  // else
-  std::cout << "no camera information found for camera_source " << camera_source << " and res: " << resolution << std::endl;
-  return getEmptyInfo();
+  else{
+    std::cout << "no camera information found for camera_source " << camera_source << " and res: " << resolution << std::endl;
+    return getEmptyInfo();
+  }
 }
 
 } // camera_info_definitions
@@ -186,7 +187,7 @@ CameraConverter::CameraConverter(
   const int& camera_source,
   const int& resolution,
   const bool& has_stereo) : BaseConverter( name, frequency, session ),
-    p_video_(session->service("ALVideoDevice").value()),
+    p_video_( session->service("ALVideoDevice") ),
     camera_source_(camera_source),
     resolution_(resolution),
     // change in case of depth camera

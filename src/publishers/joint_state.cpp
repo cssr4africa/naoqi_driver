@@ -22,40 +22,40 @@
 
 namespace naoqi
 {
-namespace publisher
-{
+    namespace publisher
+    {
 
-JointStatePublisher::JointStatePublisher( const std::string& topic ):
-  topic_( topic ),
-  is_initialized_( false )
-{}
+    JointStatePublisher::JointStatePublisher( const std::string& topic ):
+      topic_( topic ),
+      is_initialized_( false )
+    {}
 
-void JointStatePublisher::publish( const sensor_msgs::JointState& js_msg,
-                                   const std::vector<geometry_msgs::TransformStamped>& tf_transforms )
-{
-  pub_joint_states_.publish( js_msg );
+    void JointStatePublisher::publish( const sensor_msgs::JointState& js_msg,
+                                      const std::vector<geometry_msgs::TransformStamped>& tf_transforms )
+    {
+      pub_joint_states_.publish( js_msg );
 
-  /**
-   * ROBOT STATE PUBLISHER
-   */
-  tf_broadcasterPtr_->sendTransform(tf_transforms);
-}
+      /**
+       * ROBOT STATE PUBLISHER
+       */
+      tf_broadcasterPtr_->sendTransform(tf_transforms);
+    }
 
 
-void JointStatePublisher::reset( ros::NodeHandle& nh )
-{
-  pub_joint_states_ = nh.advertise<sensor_msgs::JointState>( topic_, 10 );
+    void JointStatePublisher::reset( ros::NodeHandle& nh )
+    {
+      pub_joint_states_ = nh.advertise<sensor_msgs::JointState>( topic_, 10 );
 
-  tf_broadcasterPtr_ = boost::make_shared<tf2_ros::TransformBroadcaster>();
+      tf_broadcasterPtr_ = boost::make_shared<tf2_ros::TransformBroadcaster>();
 
-  is_initialized_ = true;
-}
+      is_initialized_ = true;
+    }
 
-bool JointStatePublisher::isSubscribed() const
-{
-  // assume JS and TF as essential, so publish always
-  return true;
-}
+    bool JointStatePublisher::isSubscribed() const
+    {
+      // assume JS and TF as essential, so publish always
+      return true;
+    }
 
-} //publisher
+    } //publisher
 } // naoqi

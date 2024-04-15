@@ -43,7 +43,9 @@ CameraPublisher::~CameraPublisher()
 
 void CameraPublisher::publish( const sensor_msgs::ImagePtr& img, const sensor_msgs::CameraInfo& camera_info )
 {
+  // Instantiating a camera object
   pub_.publish( *img, camera_info );
+  
 }
 
 void CameraPublisher::reset( ros::NodeHandle& nh )

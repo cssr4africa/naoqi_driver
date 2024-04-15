@@ -55,7 +55,7 @@ public:
   virtual inline bool isSubscribed() const
   {
     if (is_initialized_ == false) return false;
-      return pub_.getNumSubscribers() > 0;
+    return pub_.getNumSubscribers() > 0;
   }
 
   virtual void publish( const T& msg )
